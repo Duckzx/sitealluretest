@@ -1,0 +1,51 @@
+<% layout('@layouts/layout.html', { page_title: "Pagamento" }) %>
+
+<% function isBase64(str) { 
+    return /^data:image\/[a-z]+;base64,/.test(str) || /^[A-Za-z0-9+/=]+$/.test(str); 
+} %>
+
+<div class="max-w-lg w-full space-y-8 mx-auto py-12 px-3">
+  <div class="relative w-full h-2 bg-primary/10 border-primary rounded-full overflow-hidden">
+    <div class="absolute inset-y-0 w-1/4 bg-primary rounded-full animate-[loading_2s_ease-in-out_infinite]">
+    </div>
+  </div>
+  <div class="relative border-0 sm:border border-primary p-8 rounded-md flex flex-col items-center justify-center">
+    <div class="absolute top-0 -translate-y-1/2 text-lg font-semibold tracking-tighter px-3">
+      Concluir pagamento
+    </div>
+    <p class="text-sm text-muted-foreground mb-4">Use a câmera do seu celular para escanear o QR Code.</p>
+    <img class="p-1 bg-white rounded-md" width="250" height="250" alt="QR Code" src="<%= isBase64(payment.qrCode) ? 
+         (payment.qrCode.startsWith('data:image') ? payment.qrCode : 'data:image/png;base64,' + payment.qrCode) 
+         : payment.qrCode %>" />
+    <div class="relative flex items-center justify-center w-full my-5">
+      <div class="shrink-0 bg-border h-[1px] w-full"></div>
+      <span class="absolute bg-background px-3 text-sm text-muted-foreground">OU</span>
+    </div>
+    <div class="flex gap-1 w-full">
+      <input type="text" value="<%= payment.pixCode %>" readOnly class="flex w-full rounded-md border-2 border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 h-10">
+      <button data-action="copy" data-is-copied="false" data-content="<%= payment.pixCode %>" class="group inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-5 py-2 h-auto">
+        <i data-lucide="check" class="size-5 hidden group-data-[is-copied=true]:block"></i>
+        <i data-lucide="copy" class="size-5 hidden group-data-[is-copied=false]:block"></i>
+        Copiar
+      </button>
+    </div>
+    <a href="/order/<%= payment.orderId %>" class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-5 py-2 w-full mt-2">
+      Confirmar pagamento
+    </a>
+    <div class="text-muted-foreground text-xs mt-2">Após realizar o pagamento clique em confimar pagamento para
+      prosseguir.</div>
+  </div>
+</div>
+
+<script>
+  setInterval(async () => {
+    const orderId = window.location.pathname.split("/payments/")[1]
+
+    try {
+      const data = await Mginex.getOrderPayment(orderId)
+      if (data.status !== "PENDING") window.location.href = `/order/${orderId}`
+    } catch (error) {
+
+    }
+  }, 5000);
+</script>

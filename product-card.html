@@ -1,0 +1,139 @@
+<a class="group relative bg-zinc-800 rounded-xl overflow-hidden flex flex-col shadow-lg border border-zinc-700 hover:border-purple-600 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl transition-transform"
+   href="/products/<%= product.info.slug %>">
+
+    <div class="absolute inset-0 z-0 transition-all duration-300 group-hover:filter-none"
+         style="background-image: url('<%= product.info.mainImage %>'); background-size: cover; background-position: center; filter: blur(5px);">
+    </div>
+
+    <div class="absolute inset-0 bg-black/90 group-hover:bg-black/80 transition-colors duration-300 z-0"></div>
+
+    <%
+        let isProductOutOfStock = false;
+        if (product.type === "DEFAULT") {
+            isProductOutOfStock = !product.inventory.hasStock;
+        } else if (product.type === "VARIANT" && product.variants) {
+            isProductOutOfStock = product.variants.every(v => !v.inventory.hasStock);
+        }
+    %>
+    <% if (isProductOutOfStock) { %>
+    <div class="absolute inset-0 bg-black/80 flex items-center justify-center font-semibold text-white z-20 rounded-xl">
+        <i data-lucide="circle-x" class="size-6 mr-2"></i>
+        Esgotado
+    </div>
+    <% } %>
+
+    <div class="p-3 flex flex-col relative z-10"> 
+        <div class="flex items-start gap-4 mb-3">
+            <img alt="<%= product.info.title %>" width="80" height="80"
+                 class="w-44 h-20 sm:w-48 sm:h-24 object-cover rounded-xl shadow-md flex-shrink-0"
+                 src="<%= product.info.mainImage %>" />
+
+            <div class="flex-1 min-w-0">
+                <h4 class="text-base sm:text-lg font-semibold text-white mb-1 line-clamp-2"><%= product.info.title %></h4>
+
+                <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+                    <span class="px-1.5 py-0.5 bg-zinc-700 text-zinc-300 text-xs rounded flex items-center gap-1 whitespace-nowrap">
+                        <%
+                            let iconUrl = '';
+                            let categoryText = product.categoryName || 'Geral';
+
+                            switch(categoryText.toLowerCase()) {
+                                case 'steam':
+                                case 'jogos steam':
+                                case 'pc':
+                                    iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg';
+                                    break;
+                                case 'xbox':
+                                case 'jogos xbox':
+                                    iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Xbox_Game_Pass.svg';
+                                    break;
+                                case 'playstation':
+                                case 'jogos playstation':
+                                    iconUrl = 'https://upload.wikimedia.org/wikipedia/commons/3/3a/PlayStation_Plus_logo.svg';
+                                    break;
+                                case 'origin':
+                                case 'epic games':
+                                case 'uplay':
+                                    iconUrl = 'https://lucide.dev/icons/gamepad.svg'; // Fallback para outras plataformas
+                                    break;
+                                default:
+                                    iconUrl = 'https://lucide.dev/icons/gamepad.svg';
+                            }
+                        %>
+                        <% if (iconUrl) { %>
+                            <% if (iconUrl.includes('lucide.dev/icons')) { %>
+                                <i data-lucide="<%= iconUrl.split('/').pop().replace('.svg', '') %>" class="size-3.5"></i>
+                            <% } else { %>
+                                <img src="<%= iconUrl %>" alt="Ícone <%= categoryText %>" class="w-3.5 h-3.5 object-contain">
+                            <% } %>
+                        <% } %>
+                        <%= categoryText %>
+                    </span>
+                    <% if (product.info.tags && product.info.tags.includes('PC')) { %>
+                        <span class="px-1.5 py-0.5 bg-zinc-700 text-zinc-300 text-xs rounded flex items-center gap-1 whitespace-nowrap">PC</span>
+                    <% } %>
+                    <% if (product.info.tags && product.info.tags.includes('Conta')) { %>
+                        <span class="px-1.5 py-0.5 bg-zinc-700 text-zinc-300 text-xs rounded flex items-center gap-1 whitespace-nowrap">Conta</span>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-auto mb-3">
+            <% if (product.isAutoDelivery) { %>
+            <div class="inline-flex items-center gap-1 bg-blue-700/30 text-blue-300 px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap">
+                <i data-lucide="clock" class="size-3.5 sm:size-4"></i>
+                Envio Automático
+            </div>
+            <% } %>
+            <span class="text-xs sm:text-sm text-zinc-400 whitespace-nowrap">
+                <% if (product.type === "DEFAULT") { %>
+                    <% if (product.inventory.hasStock) { %>
+                        <%= product.inventory.stockCount %> Disponíveis
+                    <% } else { %>
+                        Esgotado
+                    <% } %>
+                <% } else if (product.type === "VARIANT") { %>
+                    <%
+                        const variantsWithStock = product.variants ? product.variants.filter(v => v.inventory.hasStock) : [];
+                        const hasUnlimitedStock = variantsWithStock.some(v => v.inventory.stock === null);
+                        let totalNumericStock = 0;
+                        variantsWithStock.forEach(v => {
+                            if (v.inventory.stock !== null) {
+                                totalNumericStock += v.inventory.stock;
+                            }
+                        });
+
+                        if (variantsWithStock.length === 0) {
+                            %>Esgotado<%
+                        } else if (hasUnlimitedStock) {
+                            %>Estoque Ilimitado<%
+                        } else {
+                            %><%= totalNumericStock %> Disponíveis (Variantes)<%
+                        }
+                    %>
+                <% } %>
+            </span>
+        </div>
+
+        <hr class="border-t border-dashed border-zinc-600 mb-4">
+
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white flex items-center justify-center border border-zinc-600">
+                    <span class="text-zinc-900 font-bold text-sm">N</span>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-white">Noxus Store</p>
+                    <p class="text-xs text-zinc-400 flex items-center gap-1">Verificado <i data-lucide="check-circle" class="size-3 sm:size-3.5 text-blue-400"></i></p>
+                </div>
+            </div>
+            <div class="text-right">
+                <% if (product.type === "DEFAULT" && product.pricing.discount !== null) { %>
+                <del class="text-zinc-500 text-xs sm:text-sm block"><%= formatPrice(product.pricing.oldPrice) %></del>
+                <% } %>
+                <span class="text-lg sm:text-xl font-bold text-white"><%= product.type === "DEFAULT" ? formatPrice(product.pricing.price) : `${formatPrice(product.pricing.from)}+` %></span>
+            </div>
+        </div>
+    </div>
+</a>

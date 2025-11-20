@@ -1,0 +1,128 @@
+<% layout('@layouts/layout.html', { page_title: "Carrinho" , scripts: ["/scripts/checkout.js"] }) %>
+
+<section id="checkout">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div class="rounded-3xl border border-white/15 bg-gradient-to-br from-white/[5%] to-white/[2%] backdrop-blur-xl shadow-2xl p-6 md:p-8 lg:p-10 space-y-8 md:space-y-10">
+
+      <div class="mb-6 md:mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2 text-foreground">Carrinho de Compras</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
+            <li class="inline-flex items-center gap-1.5">
+              <a class="transition-colors hover:text-primary" href="/">Início</a>
+            </li>
+            <li role="presentation" aria-hidden="true">
+              <i data-lucide="chevron-right" class="size-4 text-muted-foreground"></i>
+            </li>
+            <li class="inline-flex items-center gap-1.5">
+              <a class="transition-colors text-primary" href="/checkout">Carrinho</a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6 lg:gap-8">
+        <div class="space-y-6 h-fit">
+          <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[8%] to-white/[4%] backdrop-blur-lg text-card-foreground shadow-xl h-fit">
+            <div class="border-b border-white/10 p-5">
+              <h4 class="text-lg font-semibold text-foreground">Formas de Pagamento</h4>
+            </div>
+            <div class="p-5 space-y-4">
+              <% store.gateways.forEach(gateway=> { %>
+              <div data-state="" data-payment-method="<%= gateway.name %>" class="border border-white/10 bg-white/[5%] flex items-center p-3 rounded-lg space-x-3 cursor-pointer ring-primary ring-offset-2 ring-offset-background transition-all duration-200 hover:bg-white/[10%] hover:shadow-md data-[state=active]:ring-2 data-[state=active]:border-primary/50">
+                <div class="flex items-center space-x-3">
+                  <div class="size-10 border border-white/15 rounded-md flex items-center justify-center bg-white/[8%] shadow-sm">
+                    <img src="<%= images.paymentMethods[gateway.name].src %>" alt="<%= images.paymentMethods[gateway.name].alt %>" class="rounded-sm size-7 object-contain" />
+                  </div>
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                      <div class="text-base font-medium text-foreground">
+                        <%= images.paymentMethods[gateway.name].alt %>
+                      </div>
+                      <% if (gateway.name === "PIX") { %>
+                      <div class="inline-flex items-center py-0.5 font-medium transition-colors bg-emerald-500/20 text-emerald-300 gap-1 px-2 rounded-full border border-emerald-500/30 text-xs shadow-sm">
+                        <i data-lucide="zap" class="size-3.5"></i>
+                        Mais rápido
+                      </div>
+                      <% } %>
+                    </div>
+                    <p class="text-xs text-muted-foreground">Aprovação imediata</p>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[8%] to-white/[4%] backdrop-blur-lg text-card-foreground shadow-xl h-fit">
+            <div class="border-b border-white/10 p-5">
+              <h4 class="font-semibold text-lg text-foreground">Informações Pessoais</h4>
+            </div>
+            <div class="p-5 space-y-4" id="personal-info">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="first-name" class="block text-sm font-medium text-muted-foreground mb-1">Nome</label>
+                  <input type="text" id="first-name" name="first-name" placeholder="Seu nome" class="flex h-10 w-full rounded-md border border-white/10 bg-white/[5%] px-3 py-2 text-sm text-foreground ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors" />
+                </div>
+                <div>
+                  <label for="last-name" class="block text-sm font-medium text-muted-foreground mb-1">Sobrenome</label>
+                  <input type="text" id="last-name" name="last-name" placeholder="Seu sobrenome" class="flex h-10 w-full rounded-md border border-white/10 bg-white/[5%] px-3 py-2 text-sm text-foreground ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors" />
+                </div>
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-muted-foreground mb-1">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" class="flex h-10 w-full rounded-md border border-white/10 bg-white/[5%] px-3 py-2 text-sm text-foreground ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors" />
+              </div>
+              <p class="text-sm text-muted-foreground leading-relaxed hidden" data-status-message>
+                <b class="text-yellow-400">Importante:</b>
+                Selecione um método de pagamento acima para preencher as
+                informações necessárias para a compra.
+              </p>
+            </div>
+          </div>
+          <div class="bg-primary/10 border border-primary/30 rounded-xl p-4 flex gap-3 shadow-md">
+            <i data-lucide="info" class="size-5 text-primary mt-0.5 flex-shrink-0"></i>
+            <p class="text-sm text-primary leading-relaxed">
+              Ao realizar uma compra, você concorda com todos os
+              <a href="/terms" target="_blank" class="font-semibold underline underline-offset-2 hover:text-primary/80 transition-colors">
+                termos de uso
+              </a> do site.
+            </p>
+          </div>
+          <button class="group inline-flex items-center gap-3 justify-center whitespace-nowrap rounded-xl font-bold transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary/80 shadow-lg hover:shadow-xl h-12 md:h-14 px-6 md:px-8 text-lg w-full active:scale-[0.98]" type="submit" id="pay-button">
+            <i data-lucide="lock" class="size-5 group-hover:scale-110 transition-transform"></i>
+            Pagar <span class="ml-1 md:ml-2">
+              <%= formatPrice(0) %>
+            </span>
+          </button>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[8%] to-white/[4%] backdrop-blur-lg text-card-foreground shadow-xl h-fit">
+          <div class="border-b border-white/10 p-5">
+            <h4 class="font-semibold text-lg text-foreground">Resumo do Pedido</h4>
+          </div>
+          <div class="p-5 space-y-4">
+            <div class="space-y-4" id="products-list">
+            </div>
+            <div data-orientation="horizontal" role="none" class="shrink-0 bg-white/15 h-[1px] w-full"></div>
+            <div id="coupon" class="space-y-2">
+              <div class="flex gap-3 h-11">
+                <input class="flex w-full rounded-lg border border-white/10 bg-white/[5%] px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 h-full text-foreground" placeholder="Digite seu cupom de desconto" />
+                <button class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-5 h-full shadow-lg shadow-primary/30 active:scale-95" type="button">
+                  <i data-lucide="ticket" class="size-5"></i>
+                  Aplicar
+                </button>
+              </div>
+              <span class="text-red-400 text-sm"></span>
+            </div>
+            <div class="bg-white/15 h-[1px] w-full"></div>
+            <ul class="space-y-3 p-3 rounded-md border border-white/10 bg-white/[5%] shadow-sm" id="pricing">
+            </ul>
+            <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 font-medium text-base text-emerald-400 justify-center rounded-xl py-3 px-4 shadow-md">
+              <i data-lucide="shield-check" class="size-5"></i> Pagamento 100% Seguro
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

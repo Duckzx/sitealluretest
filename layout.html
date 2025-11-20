@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<% 
+  function hexToRgb(hex) {
+  hex = hex.replace(/^#/, "");
+  if (hex.length === 3) {
+    hex = hex.split("").map(char => char + char).join("");
+  }
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `${r} ${g} ${b}`
+}
+%>
+
+<head>
+  <style>
+    :root {
+      --primary: <%=hexToRgb(store.theme.primaryColor) %>;
+      --primary-foreground: 255 255 255;
+
+      --secondary: 255 255 255 / 0.05;
+
+      --background: 9 9 11;
+      --foreground: 250 250 250;
+
+      --border: 255 255 255 / 0.05;
+      --card: var(--background);
+
+      --muted: var(--secondary);
+      --muted-foreground: 171 171 171;
+
+      --radius: 0.7rem;
+    }
+  </style>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:title" content="<%= page_title %>" />
+  <meta property="og:site_name" content="<%= store.settings.title %>" />
+  <meta property="og:description" content="<%= store.settings.description %>" />
+  <meta property="og:image" content="<%= store.theme.logo %>" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="627" />
+  <meta name="description" content="<%= store.settings.description %>" />
+
+  <link rel="icon" type="image/x-icon" href="<%= store.theme.favicon %>" />
+  <link rel="stylesheet" href="/styles/main.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- GOOGLE_TAG_MANAGER -->
+
+  <% if (store.plugins.find(plugin => plugin.type === "GOOGLE_TAG_MANAGER")) { %>
+  <% const plugin =store.plugins.find(plugin => plugin.type === "GOOGLE_TAG_MANAGER")  %>
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', '<%= plugin.data.gtmId %>');
+  </script>
+  <% } %>
+
+  <!-- FACEBOOK_PIXEL -->
+  <% if (store.plugins.find(plugin => plugin.type === "FACEBOOK_PIXEL")) { %>
+  <% const plugin = store.plugins.find(plugin => plugin.type === "FACEBOOK_PIXEL") %>
+  <script>
+    ! function(f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '<%= plugin.data.pixelId %>');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=<%= plugin.data.pixelId %>&ev=PageView&noscript=1" />
+  </noscript>
+  <% } %>
+
+  <!-- CRISP -->
+  <% if (store.plugins.find(plugin => plugin.type === "CRISP")) { %>
+  <% const plugin = store.plugins.find(plugin => plugin.type === "CRISP") %>
+  <script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "<%= plugin.data.websiteId %>";
+    (function() {
+      d = document;
+      s = d.createElement("script");
+      s.src = "https://client.crisp.chat/l.js";
+      s.async = 1;
+      d.getElementsByTagName("head")[0].appendChild(s);
+    })();
+  </script>
+  <% } %>
+
+
+  <title>
+    <%= page_title %> - <%= store.settings.title %>
+  </title>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          typography: {
+            DEFAULT: {
+              css: {
+                color: "rgb(var(--foreground))",
+                "--tw-prose-body": "rgb(var(--foreground))",
+                "--tw-prose-headings": "rgb(var(--foreground))",
+                "--tw-prose-lead": "rgb(var(--muted-foreground))",
+                "--tw-prose-links": "rgb(var(--primary))",
+                "--tw-prose-bold": "rgb(var(--foreground))",
+                "--tw-prose-counters": "rgb(var(--muted-foreground))",
+                "--tw-prose-bullets": "rgb(var(--muted-foreground))",
+                "--tw-prose-hr": "rgb(var(--border))",
+                "--tw-prose-quotes": "rgb(var(--foreground))",
+                "--tw-prose-quote-borders": "rgb(var(--border))",
+                "--tw-prose-captions": "rgb(var(--muted-foreground))",
+                "--tw-prose-code": "rgb(var(--foreground))",
+                "--tw-prose-pre-code": "rgb(var(--muted-foreground))",
+                "--tw-prose-pre-bg": "rgb(var(--muted))",
+                "--tw-prose-th-borders": "rgb(var(--border))",
+                "--tw-prose-td-borders": "rgb(var(--border))",
+              },
+            },
+          },
+          colors: {
+            primary: "rgb(var(--primary))",
+            "primary-foreground": "rgb(var(--primary-foreground))",
+            secondary: "rgb(var(--secondary))",
+            background: "rgb(var(--background))",
+            card: "rgb(var(--card))",
+            foreground: "rgb(var(--foreground))",
+            border: "rgb(var(--border))",
+            muted: "rgb(var(--muted))",
+            "muted-foreground": "rgb(var(--muted-foreground))",
+          },
+          borderRadius: {
+            xl: "calc(var(--radius) + 2px)",
+            lg: "var(--radius)",
+            md: "calc(var(--radius) - 2px)",
+            sm: "calc(var(--radius) - 4px)",
+            full: "500px",
+          },
+        },
+        container: {
+          center: true,
+          padding: "1rem",
+          screens: {
+            "2xl": "1500px",
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer base {
+  * {
+  @apply border-border p-0 m-0 box-border border-border;
+  }
+
+  body {
+  font-family: 'Geist', sans-serif;
+  @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+  @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-md;
+  }
+  }
+  </style>
+</head>
+
+<body>
+  <%- include("@components/navbar.html") %>
+  <%- include("@components/clip.html") %>
+  <%- include("@components/cart-menu.html") %>
+  <main id="__mginex"><%- body %></main>
+  <%- include("@components/footer.html") %>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.548.0/dist/umd/lucide.min.js"></script>
+  <script src="https://kit.fontawesome.com/5bd6cfbd67.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script>
+    lucide.createIcons();
+  </script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+  <script src="https://cdn.mginex.com/static/assets/js/mginex.js?v=<%= Math.floor(Date.now() / 60_000) %>"></script>
+  <script src="/scripts/main.js"></script>
+  <script src="/scripts/cart.js"></script>
+  <script src="/scripts/dialog.js"></script>
+
+  <!-- LOADING INTEGRATIONS -->
+
+  <!-- UTMIFY -->
+  <% if (store.plugins.find(plugin => plugin.type === "UTMIFY")) { %>
+  <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+  <% } %>
+
+
+  <!-- GOOGLE_ANALYTICS -->
+  <% if (store.plugins.find(plugin => plugin.type === "GOOGLE_ANALYTICS")) { %>
+  <% const plugin = store.plugins.find(plugin => plugin.type === "GOOGLE_ANALYTICS") %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= plugin.data.googleId %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', '<%= plugin.data.googleId %>');
+  </script>
+  <% } %>
+
+
+  <!-- LOADING INTEGRATIONS -->
+
+  <% if (typeof scripts !=='undefined' && scripts) { %>
+  <% scripts.forEach(src=> { %>
+  <script src="<%= src %>"></script>
+  <% }) %>
+  <% } %>
+</body>
+
+</html>

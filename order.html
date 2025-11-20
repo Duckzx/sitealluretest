@@ -1,0 +1,128 @@
+<% layout('@layouts/layout.html', { page_title: `Pedido ${order.id}`, scripts: ["/scripts/chat.js"] }) %>
+
+<section id="checkout">
+  <div class="container py-5">
+    <div class="mb-4">
+      <h1 class="text-xl md:text-2xl font-semibold mb-1">Pedido <%= order.id %>
+      </h1>
+      <nav aria-label="breadcrumb">
+        <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
+          <li class="inline-flex items-center gap-1.5">
+            <a class="transition-colors hover:text-foreground" href="/account">Conta</a>
+          </li>
+          <li role="presentation" aria-hidden="true">/</li>
+          <li class="inline-flex items-center gap-1.5">
+            <a class="transition-colors hover:text-foreground" href="/account/orders">Pedidos</a>
+          </li>
+          <li role="presentation" aria-hidden="true">/</li>
+          <li class="inline-flex items-center gap-1.5">
+            <a class="transition-colors hover:text-foreground" href="#">Pedido</a>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-3">
+      <div class="lg:col-span-2 space-y-3">
+        <div class="rounded-xl border bg-card text-card-foreground shadow">
+          <div class="flex flex-col space-y-1.5 p-6 border-b">
+            <h3 class="font-semibold leading-none tracking-tight">Itens do pedido</h3>
+          </div>
+          <div class="p-6 space-y-3">
+            <% order.items.forEach(item=> { %>
+            <div class="rounded-xl border bg-card text-card-foreground shadow">
+              <div class="flex items-center gap-3 p-3">
+                <img src="<%= item.product.image %>" class="w-14 h-14 rounded-md object-cover border" alt="<%= item.product.title %>" />
+                <div>
+                  <div class="text-sm mb-1">
+                    <%= item.product.title %>
+                  </div>
+                  <div class="flex flex-wrap gap-2">
+                    <span class="text-sm text-muted-foreground">
+                      <%= formatPrice(item.pricing.subTotal) %>
+                    </span>
+                    <div class="inline-flex items-center border px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-[4px]">
+                      <%= item.quantity %> unidade(s)
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-auto flex gap-3">
+                  <% if (order.status === "APPROVED") { %>
+                  <%- include("@components/dialog.html", {id: item.id, title: item.product.title, content: include("@components/order-item-dialog-content.html", {item})}) %>
+                  <button onclick="openDialog('<%= item.id %>')" class="inline-flex items-center gap-2 justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 rounded-md px-3 text-sm">
+                    Resgatar
+                  </button>
+                  <% if (item.product.chat.enabled) { %>
+                  <%- include("@components/dialog.html", {id: `chat.${item.id}`, title: `Chat ao vivo - ${item.product.title}`, className: "lg:w-[700px]", content: include("@components/order-item-chat.html", {item})}) %>
+                  <button onclick="openDialog('chat.<%= item.id %>')" class="inline-flex items-center gap-2 justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border text-primary-foreground shadow hover:bg-secondary h-10 rounded-md px-3 text-sm">
+                    <i data-lucide="message-square" class="size-5"></i>
+                    Chat ao vivo
+                  </button>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+              <% if (item.product.instructions && order.status === "APPROVED") { %>
+              <div class="border-t p-3">
+                <div class="prose prose-sm md:prose-base lg:prose-lg">
+                  <%- item.product.instructions %>
+                </div>
+              </div>
+              <% } %>
+            </div>
+            <% }) %>
+            <div class="shrink-0 bg-border h-[1px] w-full"></div>
+            <p class="text-sm text-muted-foreground">
+              <span class="text-yellow-300">Importante:</span> Após realizar o pagamento,
+              clique em resgatar para obter os itens do pedido.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="rounded-xl border bg-card text-card-foreground shadow">
+          <div class="flex flex-col space-y-1.5 p-6 border-b">
+            <h3 class="font-semibold leading-none tracking-tight">Detalhes do pedido</h3>
+          </div>
+          <div class="p-6 space-y-3">
+            <div>
+              <div class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Status do pedido
+              </div>
+              <div class="border p-3 rounded-md space-y-0.5">
+                <div class="flex items-center gap-2 font-medium">
+                  <i data-lucide="<%= order.status === "APPROVED" ? "check-circle" : "circle-alert" %>" class="<%= order.status==="APPROVED" ? "text-green-500" : "text-orange-400" %>"></i>
+                  Pagamento <%= order.status === "APPROVED" ? "aprovado" : order.status === "REFUNDED" ? "Reembolsado" : order.status === "PENDING" ? "Pendente" : order.status === "CHARGED_BACK" ? "Devolvido" : "Cancelado" %>
+                </div>
+                <div class="text-sm text-muted-foreground">
+                  Atualizado em <b>
+                    <%= new Date(order.updatedAt).toLocaleString() %>
+                  </b>
+                </div>
+              </div>
+            </div>
+            <% Object.entries(order.payer).forEach(payer => { %>
+            <div class="space-y-2">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="<%= payer[0] %>">
+                <%= payer[0] === "name" ? "Nome" : payer[0] === "surname" ? "Sobrenome" : payer[0] === "email" ? "E-mail" : "CPF" %>
+              </label>
+              <input id="<%= payer[0] %>" value="<%= payer[1] %>" readonly class="flex h-12 w-full rounded-md border-2 border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50" />
+            </div>
+            <% }) %>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <div>Sub total:</div>
+                <span><%= formatPrice(order.pricing.subTotal) %></span>
+              </div>
+              <div class="text-sm text-muted-foreground">* Valor total sem dedução de descontos</div>
+            </div>
+            <div class="shrink-0 bg-border h-[1px] w-full"></div>
+            <div class="flex justify-between">
+              <div>Total:</div>
+              <span><%= formatPrice(order.pricing.total) %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

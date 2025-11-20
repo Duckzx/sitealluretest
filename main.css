@@ -1,0 +1,118 @@
+@keyframes fade-in {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+}
+
+@keyframes fade-out {
+    from {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(500px);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes slide-out {
+    from {
+        transform: translateX(0px);
+    }
+    to {
+        transform: translateX(500px);
+    }
+}
+
+@layer base {
+}
+
+#cart-drawer[data-state="open"] {
+    animation: fade-in 0.4s forwards;
+}
+
+#cart-drawer[data-state="closed"] {
+    animation: fade-out 0.4s forwards;
+}
+
+#cart-drawer[data-state="open"] > div {
+    animation: slide-in 0.4s forwards;
+}
+
+#cart-drawer[data-state="closed"] > div {
+    animation: slide-out 0.4s forwards;
+}
+
+.dialog[data-state="open"] {
+    animation: fade-in 0.4s forwards;
+}
+
+.dialog[data-state="closed"] {
+    animation: fade-out 0.4s forwards;
+}
+
+.dialog[data-state="open"] > div {
+    animation: dialog-in 0.2s forwards;
+}
+
+.dialog[data-state="closed"] > div {
+    animation: dialog-out 0.2s forwards;
+}
+
+@keyframes dialog-in {
+    from {
+        opacity: 0;
+        scale: 50%;
+    }
+    to {
+        opacity: 1;
+        scale: 100%;
+    }
+}
+
+@keyframes dialog-out {
+    from {
+        opacity: 1;
+        scale: 100%;
+    }
+    to {
+        opacity: 0;
+        scale: 50%;
+    }
+}
+
+#category-section,
+#category #products-list {
+    scroll-margin-top: 100px;
+    transition:
+        opacity 0.5s ease-out,
+        transform 0.5s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+#category-section.visible,
+#category #products-list.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes loading {
+    0% {
+        left: -50%;
+    }
+
+    to {
+        left: 100%;
+    }
+}

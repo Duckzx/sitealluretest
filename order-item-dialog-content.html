@@ -1,0 +1,34 @@
+<div class="">
+  <% if (item.inventory.type === "SERIAL") { %>
+  <div class="flex flex-col">
+    <div class="flex gap-2 ml-auto mb-2">
+      <button data-action="download" data-name="<%= item.quantity %>x - <%= item.product.title %>.txt" data-content="<%= item.inventory.serials.join("\n") %>" class="inline-flex items-center gap-2 justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-secondary hover:text-secondary-foreground py-2 h-8 px-3 rounded-sm">
+        <i data-lucide="download" class="size-5"></i>
+        Baixar tudo
+      </button>
+      <button data-action="copy" data-content="<%= item.inventory.serials.join("\n") %>" class="inline-flex items-center gap-2 justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-secondary hover:text-secondary-foreground py-2 h-8 px-3 rounded-sm">
+        <i data-lucide="copy" class="size-5"></i>
+        Copiar tudo
+      </button>
+    </div>
+    <div class="overflow-y-auto max-h-96">
+      <% item.inventory.serials.forEach(serial => { %>
+      <div class="border p-2 text-sm first:rounded-t-md last:rounded-b-md flex items-center">
+        <%= serial %>
+        <button class="ml-auto disabled:opacity-70 group" data-action="copy" data-content="<%= serial %>" data-is-copied="false">
+          <i data-lucide="check" class="size-4 hidden group-data-[is-copied=true]:block"></i>
+          <i data-lucide="copy" class="size-4 hidden group-data-[is-copied=false]:block"></i>
+        </button>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+  <% } else if (item.inventory.type === "FILE") { %>
+  <a href="<%= item.inventory.file %>" target="_blank" class="inline-flex items-center gap-2 justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 rounded-md px-3 text-sm w-full">
+    <i data-lucide="download" class="size-4"></i>
+    Baixar arquivo
+  </a>
+  <% } else if (item.inventory.type === "TEXT") { %>
+  <div class="border p-3 rounded-sm"><%= item.inventory.text %></div>
+  <% } %>
+</div>

@@ -1,0 +1,37 @@
+<% layout('@layouts/layout.html', { page_title: category.title  }) %>
+
+<section id="category">
+  <div class="container py-12 space-y-8">
+    <div class="flex items-center gap-2">
+      <a href="/" class="w-9 h-9 flex items-center justify-center rounded-md border bg-background hover:bg-muted transition">
+        <i data-lucide="arrow-left" class="size-4"></i>
+      </a>
+      <h3 class="text-2xl font-bold"><%= category.title %></h3>
+    </div>
+    <div class="flex items-center gap-3">
+      <% if (category.banner) { %>
+      <img src="<%= category.banner %>" class="w-full h-full rounded-md aspect-[1216/260] object-cover select-none pointer-events-none" alt="<%= category.title %>" />
+      <% } %>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4" id="products-list"></div>
+  </div>
+</section>
+
+<script>
+  (async () => {
+    try {
+      const req = await fetch(`/search?categoryId=<%= category.id %>&page=1&limit=1000&type=DEFAULT`).then((res) =>
+        res.text(),
+      );
+
+      const element = document.querySelector("#category #products-list")
+
+      element.innerHTML = req;
+      element.classList.add("visible")
+
+      if (window.lucide) lucide.createIcons();
+    } catch (error) {
+      console.log("Load products error");
+    }
+  })();
+</script>

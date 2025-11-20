@@ -1,0 +1,15 @@
+<% layout('@layouts/layout.html', { page_title: "Pagamento" }) %>
+
+<section>
+  <div class="container max-w-screen-2xl py-8 space-y-4">
+    <header class="space-y-2">
+      <h1 class="text-3xl font-semibold">Termos de serviços</h1>
+      <p class="text-base text-muted-foreground">Relação contratual entre o prestador de um serviço e o seu utilizador.</p>
+    </header>
+    <div class="bg-secondary p-4 rounded-[15px] w-fit">
+      <strong>Atenção:</strong>
+      Os nossos termos de serviço está sujeito a mudanças e quaisquer alteração feita, você como usuário dos nossos serviços está concordando previamente com isto.
+    </div>
+    <div class="prose prose-sm md:prose-base lg:prose-lg"><%- store.settings.terms %></div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+<div id="cart-drawer" class="w-screen h-screen flex items-center justify-end z-50 fixed top-0 left-0 group hidden" data-state="closed">
+  <div class="bg-background border-l h-full w-full lg:w-[500px] p-5 flex flex-col">
+    <div class="flex items-center justify-between mb-4">
+      <h4 class="text-xl font-semibold tracking-tight">Carrinho</h4>
+      <button onclick="closeCart()">
+        <i data-lucide="x" class="text-muted-foreground hover:text-foreground transition-colors"></i>
+      </button>
+    </div>
+    <div class="space-y-3 h-full flex flex-col" id="products-list"></div>
+    <div class="mt-auto">
+      <div class="bg-secondary w-full flex p-3 rounded-sm flex justify-between font-semibold mb-3" id="cart-pricing">
+        <div>Valor Total:</div>
+        <span>R$0,00</span>
+      </div>
+      <a href="/checkout" class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-5 py-2 w-full">
+        <i data-lucide="external-link" class="size-5"></i>
+        Ir para a compra
+      </a>
+    </div>
+  </div>
+</div>

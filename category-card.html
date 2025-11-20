@@ -1,0 +1,15 @@
+<div style="opacity: 1; transform: none">
+    <a
+        class="bg-secondary rounded-md aspect-[180/250] flex items-end justify-center py-8 px-2 relative before:content-[''] overflow-hidden cursor-pointer border-2 hover:border-primary hover:scale-[97%] transition-all"
+        href="/categories/<%= category.slug %>"
+    >
+        <% if (category.image) { %>
+        <img
+            src="<%= category.image %>"
+            class="absolute top-0 left-0 w-full h-full select-none object-cover"
+            style="mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 60%, transparent 100%)"
+        />
+        <% } %>
+        <span class="text-sm sm:text-lg font-semibold z-10 text-center uppercase"><%= category.title %></span>
+    </a>
+</div>

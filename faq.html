@@ -1,0 +1,407 @@
+<% layout('@layouts/layout.html', {page_title: "FAQ - Perguntas Frequentes" }) %>
+
+<div class="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+  <!-- Hero Section -->
+  <section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(var(--primary),0.03)_50%,transparent_75%)] bg-[length:60px_60px]"></div>
+    <div class="container relative">
+      <div class="text-center max-w-3xl mx-auto">
+        <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-6 py-3 mb-8">
+          <i data-lucide="help-circle" class="size-5 text-primary"></i>
+          <span class="text-sm font-semibold text-primary">Central de Ajuda</span>
+        </div>
+        
+        <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+          Perguntas <span class="text-primary">Frequentes</span>
+        </h1>
+        
+        <p class="text-muted-foreground text-lg lg:text-xl leading-relaxed mb-8">
+          Encontre respostas para as dúvidas mais comuns sobre nossa loja de produtos digitais. 
+          Se não encontrar o que procura, entre em contato conosco!
+        </p>
+
+        <!-- Quick Search -->
+        <div class="relative max-w-md mx-auto">
+          <input 
+            type="text" 
+            placeholder="Buscar nas perguntas frequentes..." 
+            class="w-full border-2 border-border bg-card/50 backdrop-blur-sm px-4 py-3 text-sm shadow-sm transition-all duration-200 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:bg-card focus-visible:shadow-md pl-12 rounded-full"
+            id="faq-search"
+          />
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="py-12 bg-muted/30">
+    <div class="container">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="#compras" class="group bg-card border border-border rounded-xl p-6 text-center hover:border-primary/50 hover:shadow-md transition-all duration-200">
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="shopping-bag" class="size-6 text-primary"></i>
+          </div>
+          <h3 class="font-semibold text-sm">Compras</h3>
+        </a>
+        
+        <a href="#pagamentos" class="group bg-card border border-border rounded-xl p-6 text-center hover:border-primary/50 hover:shadow-md transition-all duration-200">
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="credit-card" class="size-6 text-primary"></i>
+          </div>
+          <h3 class="font-semibold text-sm">Pagamentos</h3>
+        </a>
+        
+        <a href="#entrega" class="group bg-card border border-border rounded-xl p-6 text-center hover:border-primary/50 hover:shadow-md transition-all duration-200">
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="zap" class="size-6 text-primary"></i>
+          </div>
+          <h3 class="font-semibold text-sm">Entrega</h3>
+        </a>
+        
+        <a href="#suporte" class="group bg-card border border-border rounded-xl p-6 text-center hover:border-primary/50 hover:shadow-md transition-all duration-200">
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+            <i data-lucide="headphones" class="size-6 text-primary"></i>
+          </div>
+          <h3 class="font-semibold text-sm">Suporte</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Sections -->
+  <section class="py-20">
+    <div class="container max-w-4xl">
+      <!-- Compras -->
+      <div class="mb-16" id="compras">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+            <i data-lucide="shopping-bag" class="size-5 text-primary"></i>
+          </div>
+          <h2 class="text-2xl lg:text-3xl font-bold">Sobre Compras</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Como faço para comprar um produto?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                É muito simples! Navegue pelos nossos produtos, clique no que deseja, escolha a variação (se houver) e clique em "Comprar agora". 
+                Você será direcionado para o checkout onde poderá finalizar sua compra com segurança.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Posso cancelar minha compra?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Sim! Você pode cancelar sua compra antes da confirmação do pagamento. Após a confirmação e entrega do produto digital, 
+                o cancelamento segue nossa política de reembolso. Entre em contato conosco para mais informações.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Os produtos têm garantia?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Todos os nossos produtos digitais passam por verificação de qualidade. Oferecemos garantia de funcionamento e suporte 
+                pós-venda. Se houver algum problema, entre em contato conosco em até 7 dias após a compra.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagamentos -->
+      <div class="mb-16" id="pagamentos">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+            <i data-lucide="credit-card" class="size-5 text-primary"></i>
+          </div>
+          <h2 class="text-2xl lg:text-3xl font-bold">Pagamentos</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Quais formas de pagamento vocês aceitam?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed mb-4">
+                Aceitamos diversas formas de pagamento para sua comodidade:
+              </p>
+              <ul class="text-muted-foreground space-y-2">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="size-4 text-primary"></i>
+                  PIX (aprovação instantânea)
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="size-4 text-primary"></i>
+                  Cartão de crédito (todas as bandeiras)
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="size-4 text-primary"></i>
+                  Cartão de débito
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="size-4 text-primary"></i>
+                  Boleto bancário
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Quanto tempo demora para aprovar o pagamento?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                <strong>PIX:</strong> Aprovação instantânea<br>
+                <strong>Cartão de crédito:</strong> Até 5 minutos<br>
+                <strong>Boleto bancário:</strong> Até 2 dias úteis após o pagamento
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Meus dados de pagamento estão seguros?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Sim! Utilizamos criptografia SSL de ponta a ponta e trabalhamos apenas com gateways de pagamento certificados. 
+                Seus dados são protegidos pelos mais altos padrões de segurança da indústria.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Entrega -->
+      <div class="mb-16" id="entrega">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+            <i data-lucide="zap" class="size-5 text-primary"></i>
+          </div>
+          <h2 class="text-2xl lg:text-3xl font-bold">Entrega Automática</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Como funciona a entrega automática?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Após a confirmação do pagamento, você recebe automaticamente o acesso ao produto digital por email. 
+                O processo é totalmente automatizado e acontece em segundos, sem necessidade de intervenção manual.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Não recebi meu produto, o que fazer?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Primeiro, verifique sua caixa de spam/lixo eletrônico. Se ainda não encontrar, entre em contato conosco 
+                imediatamente através do WhatsApp, Discord ou email. Resolveremos seu problema em até 1 hora.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Posso baixar o produto novamente?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Sim! Você pode acessar seus produtos comprados a qualquer momento através da sua conta. 
+                Mantemos um histórico de todas as suas compras para facilitar o redownload quando necessário.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suporte -->
+      <div class="mb-16" id="suporte">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+            <i data-lucide="headphones" class="size-5 text-primary"></i>
+          </div>
+          <h2 class="text-2xl lg:text-3xl font-bold">Suporte</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Como posso entrar em contato com o suporte?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <div class="space-y-4">
+                <p class="text-muted-foreground leading-relaxed">
+                  Oferecemos múltiplos canais de atendimento 24/7:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <a href="https://discord.gg/seuservidor" target="_blank" class="flex items-center gap-3 p-3 bg-[#5865F2]/10 rounded-lg hover:bg-[#5865F2]/20 transition-colors">
+                    <svg class="w-6 h-6 text-[#5865F2]" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                    <div>
+                      <div class="font-medium text-[#5865F2]">Discord</div>
+                      <div class="text-xs text-muted-foreground">Mais rápido</div>
+                    </div>
+                  </a>
+                  
+                  <a href="https://wa.me/5511999999999" target="_blank" class="flex items-center gap-3 p-3 bg-[#25D366]/10 rounded-lg hover:bg-[#25D366]/20 transition-colors">
+                    <svg class="w-6 h-6 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                    </svg>
+                    <div>
+                      <div class="font-medium text-[#25D366]">WhatsApp</div>
+                      <div class="text-xs text-muted-foreground">Direto</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button class="w-full p-6 text-left flex items-center justify-between hover:bg-muted/30 transition-colors faq-toggle">
+              <h3 class="font-semibold">Qual o horário de atendimento?</h3>
+              <i data-lucide="chevron-down" class="size-5 text-muted-foreground transition-transform"></i>
+            </button>
+            <div class="px-6 pb-6 hidden faq-content">
+              <p class="text-muted-foreground leading-relaxed">
+                Nosso suporte funciona 24 horas por dia, 7 dias por semana! Estamos sempre disponíveis para ajudar você 
+                com qualquer dúvida ou problema. Tempo médio de resposta: 15 minutos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-20 bg-gradient-to-r from-primary/5 to-primary/10">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-4">Ainda tem dúvidas?</h2>
+        <p class="text-muted-foreground text-lg mb-8">
+          Nossa equipe está pronta para ajudar você! Entre em contato através dos nossos canais de atendimento.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="https://discord.gg/seuservidor" target="_blank" class="inline-flex items-center gap-3 justify-center whitespace-nowrap rounded-xl font-semibold transition-all duration-200 bg-[#5865F2] text-white hover:bg-[#4752C4] h-12 px-6 shadow-lg hover:shadow-xl active:scale-[0.98]">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            Entrar no Discord
+          </a>
+          
+          <a href="https://wa.me/5511999999999" target="_blank" class="inline-flex items-center gap-3 justify-center whitespace-nowrap rounded-xl font-semibold transition-all duration-200 bg-[#25D366] text-white hover:bg-[#1DA851] h-12 px-6 shadow-lg hover:shadow-xl active:scale-[0.98]">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+            </svg>
+            Chamar no WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- JavaScript for FAQ Functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // FAQ Toggle Functionality
+  const faqToggles = document.querySelectorAll('.faq-toggle');
+  
+  faqToggles.forEach(toggle => {
+    toggle.addEventListener('click', function() {
+      const content = this.nextElementSibling;
+      const icon = this.querySelector('[data-lucide="chevron-down"]');
+      
+      // Toggle content visibility
+      content.classList.toggle('hidden');
+      
+      // Rotate icon
+      if (content.classList.contains('hidden')) {
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        icon.style.transform = 'rotate(180deg)';
+      }
+      
+      // Close other open FAQs (optional - remove if you want multiple open)
+      faqToggles.forEach(otherToggle => {
+        if (otherToggle !== this) {
+          const otherContent = otherToggle.nextElementSibling;
+          const otherIcon = otherToggle.querySelector('[data-lucide="chevron-down"]');
+          otherContent.classList.add('hidden');
+          otherIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+  });
+  
+  // FAQ Search Functionality
+  const searchInput = document.getElementById('faq-search');
+  const faqItems = document.querySelectorAll('.faq-toggle');
+  
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('h3').textContent.toLowerCase();
+      const content = item.nextElementSibling.textContent.toLowerCase();
+      const faqCard = item.closest('.bg-card');
+      
+      if (question.includes(searchTerm) || content.includes(searchTerm)) {
+        faqCard.style.display = 'block';
+      } else {
+        faqCard.style.display = searchTerm === '' ? 'block' : 'none';
+      }
+    });
+  });
+  
+  // Smooth scroll for quick links
+  const quickLinks = document.querySelectorAll('a[href^="#"]');
+  quickLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+});
+</script>

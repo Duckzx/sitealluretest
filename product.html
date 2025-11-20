@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.info.title %></title>
+    <style>
+        /* --- ESTILOS PARA A DESCRIÇÃO COM ROLAGEM --- */
+        .description-content {
+            max-height: 200px; /* Altura máxima da descrição antes de aparecer a barra de rolagem */
+            overflow-y: auto; /* Adiciona barra de rolagem vertical quando o conteúdo excede a altura */
+            padding-right: 10px; /* Adiciona um padding para a barra de rolagem não sobrepor o conteúdo */
+            position: relative; /* Para o fade-overlay se houver um (opcional, mas bom manter) */
+            /* Opcional: Estilize a barra de rolagem (webkit) */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #888 #555; /* Firefox */
+        }
+
+        /* Estiliza a barra de rolagem para navegadores Webkit (Chrome, Safari) */
+        .description-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .description-content::-webkit-scrollbar-track {
+            background: #2a2a2a; /* Cor do fundo da trilha da barra de rolagem */
+            border-radius: 4px;
+        }
+        .description-content::-webkit-scrollbar-thumb {
+            background-color: #888; /* Cor do "polegar" da barra de rolagem */
+            border-radius: 4px;
+            border: 2px solid #2a2a2a; /* Borda para o polegar, opcional */
+        }
+
+        /* O fade-overlay e o read-more-button não são mais necessários para a descrição com rolagem */
+        .fade-overlay, .read-more-button {
+            display: none !important;
+        }
+        /* --- FIM DOS ESTILOS PARA A DESCRIÇÃO COM ROLAGEM --- */
+
+        /* --- ESTILOS ATUALIZADOS PARA A IMAGEM DE FUNDO NO CARD ORIGINAL --- */
+        .product-card-with-background {
+            position: relative;
+            overflow: hidden;
+            min-height: 550px;
+        }
+
+        .product-card-with-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            opacity: 0.15;
+            z-index: -1;
+            border-radius: inherit;
+        }
+        /* --- FIM DOS ESTILOS ATUALIZADOS --- */
+
+        /* Estilos adicionais para os ícones */
+        .icon-info-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .icon-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffffff;
+            font-size: 0.9em;
+        }
+        .icon-item .size-4 {
+            color: #ffffff;
+        }
+
+        #product-preview {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* --- ESTILOS PARA A GAVETA DE VARIANTES COM CLIQUE E ROLAGEM --- */
+        #variants-container {
+            max-height: 70px; /* Altura inicial para mostrar apenas a primeira variante */
+            overflow: hidden; /* Esconde o que excede */
+            transition: max-height 0.3s ease-out; /* Transição suave para abrir/fechar */
+            position: relative; /* Para o fade-overlay */
+            padding-right: 10px; /* Espaço para a barra de rolagem (quando visível) */
+        }
+
+        #variants-container.expanded {
+            max-height: 280px; /* Altura expandida para mostrar ~4 variantes com rolagem */
+            overflow-y: auto; /* Adiciona barra de rolagem vertical quando expandido */
+        }
+
+        /* Estiliza a barra de rolagem para navegadores Webkit (Chrome, Safari) */
+        #variants-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        #variants-container::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        #variants-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+            border: 2px solid #2a2a2a;
+        }
+        /* Estiliza a barra de rolagem para Firefox */
+        #variants-container {
+            scrollbar-width: thin;
+            scrollbar-color: #888 #2a2a2a;
+        }
+
+        /* Estilo para a primeira variante quando ela é clicável para expandir */
+        #variants-list .variant-item:first-child {
+             cursor: pointer;
+             position: relative;
+        }
+
+        /* Overlay de fade para a primeira variante quando ela esconde outras */
+        #variants-list .variant-item:first-child::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(to top, rgba(20,20,20,1) 0%, rgba(20,20,20,0) 100%);
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.3s ease-out;
+        }
+
+        #variants-container.expanded #variants-list .variant-item:first-child::after {
+            opacity: 0;
+            display: none;
+        }
+
+        /* Aviso de variantes */
+        .variant-notice {
+            background-color: rgba(0, 128, 0, 0.1);
+            color: #22c55e;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        /* Espaçamento entre as variantes */
+        .variant-item {
+            margin-bottom: 10px;
+        }
+        .variant-item:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <% layout('@layouts/layout.html', { page_title: product.info.title, scripts: ["/scripts/product.js"] }) %>
+
+    <div class="space-y-3 py-12 px-4 product-summary w-full" data-product-id="<%= product.id %>" data-category-id="<%= product.category?.id %>">
+      <div class="rounded-xl border text-card-foreground shadow p-4 space-y-4 flex flex-col items-start lg:flex-row gap-6 product-card-with-background w-full">
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const productMainImage = "<%= product.info.mainImage %>";
+                const productCardContainer = document.querySelector('.product-card-with-background');
+                if (productCardContainer && productMainImage) {
+                    productCardContainer.style.setProperty('--main-image-url', `url(${productMainImage})`);
+                }
+            });
+        </script>
+        <style>
+            /* Define a imagem de fundo para o pseudo-elemento usando a variável CSS */
+            .product-card-with-background::before {
+                background-image: var(--main-image-url);
+            }
+        </style>
+
+        <div class="w-full md:w-1/2 space-y-3" id="product-preview">
+          <img src="<%= product.info.mainImage %>" class="rounded-lg object-cover pointer-events-none select-none w-full h-full" />
+          <div class="flex flex-wrap gap-2">
+            <% if (product.info.images.length > 1) { %>
+            <% product.info.images.forEach((image, index) => { %>
+            <div class="border-2 rounded-md overflow-hidden data-[state=active]:border-primary cursor-pointer product-image" data-state="<%= index === 0 && "active" %>">
+              <img src="<%= image %>" class="w-16 h-16 object-cover" alt="<%= product.info.title %>" />
+            </div>
+            <% }) %>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-start flex-1 space-y-4 w-full">
+          <h2 class="text-xl font-semibold"><%= product.info.title %></h2>
+
+          <div class="icon-info-group">
+            <div class="icon-item">
+              <i data-lucide="badge-check" class="size-4"></i>
+              <span>Loja Verificada</span>
+            </div>
+            <div class="icon-item">
+              <i data-lucide="shield-check" class="size-4"></i>
+              <span>Compra Segura</span>
+            </div>
+            <div class="icon-item">
+              <i data-lucide="gamepad" class="size-4"></i>
+              <span>Preços Acessíveis</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <% if (product.sales !== null) { %>
+            <div class="inline-flex items-center border px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-[4px]">
+              <%= product.sales %> vendas
+            </div>
+            <% } %>
+            <% if (product.isAutoDelivery) { %>
+            <div class="inline-flex items-center border px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80 rounded-[4px]">
+              <i data-lucide="zap" class="size-4 mr-2"></i>
+              Entrega automática
+            </div>
+            <% } %>
+          </div>
+          <div>
+            <% if (product.type === "DEFAULT" && product.pricing.discount !== null) { %>
+            <div class="flex items-center gap-1">
+              <del class="text-muted-foreground"><%= formatPrice(product.pricing.oldPrice) %></del>
+              <div class="inline-flex items-center border text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary shadow hover:bg-primary/80 py-0 px-2 rounded-[4px] !bg-primary/10 text-primary">
+                <i data-lucide="trending-down" class="mr-1 size-4"></i>
+                <%= product.pricing.discount %>%
+              </div>
+            </div>
+            <% } %>
+            <span class="text-2xl font-bold" id="product-pricing">
+              <% if (product.type === "DEFAULT") { %>
+              <%= formatPrice(product.pricing.price) %>
+              <% } %>
+            </span>
+            <div class="text-sm text-muted-foreground">Á vista no Pix</div>
+          </div>
+
+          <% if (product.type === "VARIANT") { %>
+          <div class="space-y-3 w-full">
+            <% if (product.variants.length > 1) { %>
+                <div class="variant-notice" id="variant-notice-message">
+                    <i data-lucide="info" class="size-4"></i> Este produto possui **<%= product.variants.length %> variantes**. Clique na primeira para ver as opções!
+                </div>
+            <% } %>
+            <div id="variants-container" class="w-full">
+              <div id="variants-list" class="w-full">
+                <% product.variants.forEach((variant, index) => { %>
+                <div id="variant"
+                     data-variant-id="<%= variant.id %>"
+                     data-variant-price="<%= variant.price %>"
+                     class="variant-item <%= !variant.inventory.hasStock && "pointer-events-none opacity-70" %> rounded-xl border bg-card text-card-foreground shadow p-4 data-[state=active]:border-primary group flex gap-3 cursor-pointer hover:bg-secondary">
+                  <div class="w-6 h-6 rounded-full bg-secondary border-2 ring-primary flex">
+                    <span class="w-3 h-3 bg-primary m-auto rounded-full opacity-0 group-data-[state=active]:opacity-100 transition-opacity"></span>
+                  </div>
+                  <div>
+                    <h4 class="text-sm break-all"><%= variant.title %></h4>
+                    <span class="text-xs flex items-center gap-1.5 <%= variant.inventory.hasStock ? "text-green-500" : "text-red-500" %>">
+                      (<%= variant.inventory.stock === null ? "Estoque ilimitado" : variant.inventory.stock === 0 ? "Estoque esgotado" : `${variant.inventory.stock} em estoque` %>)
+                    </span>
+                  </div>
+                  <span class="ml-auto my-auto text-sm font-semibold"><%= formatPrice(variant.price) %></span>
+                </div>
+                <% }) %>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <%- include("@components/dialog.html", {id: product.id, title: product.info.title, content: include("@components/custom-fields.html")}) %>
+
+          <div class="w-full">
+            <h4 class="text-xl font-semibold mb-2">Descrição</h4>
+            <div id="productDescription" class="description-content">
+              <div class="prose prose-sm md:prose-base lg:prose-lg"><%- product.info.description %></div>
+              </div>
+          </div>
+          <div class="w-full flex flex-col space-y-3 text-center pt-3 border-t border-white/10">
+            <% if (product.type === "DEFAULT") { %>
+            <div>
+              (<%= product.inventory.stock === null ? "Estoque ilimitado" : product.inventory.stock === 0 ? "Estoque esgotado" : `${product.inventory.stock} em estoque` %>)
+            </div>
+            <% } %>
+            <button onclick="handleAddProduct(true)" <%= product.type === "VARIANT" || (product.type === "DEFAULT" && !product.inventory.hasStock) ? "disabled" : "" %> class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md font-semibold transition-[background-color,color,transform,border-color] duration-150 ease-out-quad focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/80 h-10 px-5 text-[0.9rem] active:scale-95 w-full">
+              Comprar agora
+            </button>
+            <button onclick="handleAddProduct()" <%= product.type === "VARIANT" || (product.type === "DEFAULT" && !product.inventory.hasStock) ? "disabled" : "" %> class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md font-semibold transition-[background-color,color,transform,border-color] duration-150 ease-out-quad focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-white/10 hover:border-transparent hover:bg-white/10 hover:text-secondary-foreground h-10 px-5 text-[0.9rem] active:scale-95 w-full">
+              <i data-lucide="package-plus" class="size-5"></i>
+              Adicionar ao carrinho
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // A lógica de "Ler Mais" para a descrição foi removida, pois agora ela tem rolagem.
+            // O fade-overlay e o read-more-button são ocultados via CSS.
+
+            // Lógica para a "Gaveta" de Variantes (Abrir/Fechar ao clicar na primeira, com rolagem)
+            const variantsContainer = document.getElementById('variants-container');
+            const firstVariantItem = variantsContainer ? variantsContainer.querySelector('.variant-item:first-child') : null;
+            const variantItems = variantsContainer ? variantsContainer.querySelectorAll('.variant-item') : [];
+            const variantNotice = document.getElementById('variant-notice-message');
+
+            if (variantsContainer && firstVariantItem && variantItems.length > 1) {
+                // Esconde o aviso se não houver mais de 1 variante
+                if (variantNotice) {
+                    variantNotice.style.display = 'flex'; // Garante que o aviso esteja visível por padrão
+                    variantNotice.textContent = `Este produto possui ${variantItems.length} variantes. Clique na primeira para ver as opções!`;
+                }
+
+                // Adiciona um evento de clique à primeira variante para alternar a gaveta
+                firstVariantItem.addEventListener('click', function(event) {
+                    event.stopPropagation();
+
+                    variantsContainer.classList.toggle('expanded'); // Alterna a classe 'expanded'
+
+                    if (variantsContainer.classList.contains('expanded')) {
+                        // Gaveta aberta
+                        if (variantNotice) {
+                            variantNotice.textContent = `Este produto possui ${variantItems.length} variantes. Clique novamente para esconder!`;
+                        }
+                    } else {
+                        // Gaveta fechada
+                        if (variantNotice) {
+                            variantNotice.textContent = `Este produto possui ${variantItems.length} variantes. Clique na primeira para ver as opções!`;
+                        }
+                    }
+                });
+            } else if (variantsContainer) {
+                // Se não houver variantes ou apenas uma, garante que o contêiner não tenha altura limitada
+                variantsContainer.style.maxHeight = 'none'; // Remove limite de altura
+                variantsContainer.style.overflowY = 'visible'; // Esconde barra de rolagem
+                if (firstVariantItem) {
+                    firstVariantItem.style.cursor = 'default'; // Remove cursor de clicável
+                    firstVariantItem.style.position = 'static'; // Remove position para o pseudo-elemento ::after não existir
+                    const afterElement = firstVariantItem.querySelector('::after'); // Tenta remover o ::after
+                    if (afterElement) {
+                        afterElement.remove(); // Remove o pseudo-elemento se puder ser acessado
+                    }
+                }
+                if (variantNotice) {
+                    variantNotice.style.display = 'none'; // Esconde o aviso de variantes
+                }
+            }
+        });
+    </script>
+    <script src="/scripts/product.js"></script>
+</body>
+</html>

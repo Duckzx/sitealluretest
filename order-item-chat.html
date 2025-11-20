@@ -1,0 +1,19 @@
+<div class="flex flex-col rounded-md overflow-hidden" id="chat" chat-id="<%= item.id %>">
+  <div class="p-6 bg-secondary flex items-center gap-2">
+    <img src="<%= store.theme.logo %>" class="w-12 h-12 rounded-sm object-cover" alt="<%= store.settings.title %>" />
+    <div>
+      <div class="font-medium"><%= store.settings.title %></div>
+      <div class="flex items-center gap-2">
+        <div class="inline-flex items-center rounded-sm border text-xs font-medium transition-colors bg-red-500/10 border-transparent text-red-500 px-2 py-1">Offline</div>
+      </div>
+    </div>
+  </div>
+  <div class="p-6 border max-h-96 overflow-y-auto" id="chat-messages">
+  </div>
+  <div class="p-6 border border-t-0 rounded-b-md flex gap-2">
+    <input type="text" placeholder="Digite sua mensagem..." class="flex w-full rounded-lg border border-input bg-transparent px-3 py-1 text-[0.88rem] shadow-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-shadow focus-visible:ring-2 ring-offset-2 ring-offset-background ring-primary h-12">
+    <button disabled="true" class="flex items-center gap-1.5 justify-center px-3 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-md h-12 aspect-square">
+      <i data-lucide="send" class="size-5"></i>
+    </button>
+  </div>
+</div>

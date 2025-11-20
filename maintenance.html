@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site em Manutenção</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .animate-pulse-slow {
+      animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .animate-bounce-slow {
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+  <div class="max-w-2xl mx-auto text-center">
+    <!-- Ícone de Manutenção -->
+    <div class="mb-8 animate-float">
+      <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-900 rounded-full border border-gray-800 shadow-2xl">
+        <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Título Principal -->
+    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+      <%= store.settings.title %> está em
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">
+        Manutenção
+      </span>
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="text-xl md:text-2xl text-gray-400 mb-8 font-light">
+      Estamos trabalhando para melhorar sua experiência
+    </p>
+
+    <!-- Descrição -->
+    <div class="bg-gray-950 border border-gray-800 rounded-2xl p-8 mb-8 shadow-2xl">
+      <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        Nosso site está temporariamente indisponível devido a melhorias técnicas.
+        Estamos implementando novas funcionalidades e otimizações para oferecer
+        uma experiência ainda melhor.
+      </p>
+
+      <!-- Status -->
+      <div class="flex items-center justify-center space-x-3 mb-6">
+        <div class="w-3 h-3 bg-yellow-500 rounded-full animate-pulse-slow"></div>
+        <span class="text-yellow-400 font-medium">Manutenção em Andamento</span>
+      </div>
+
+      <!-- Tempo Estimado -->
+      <div class="border-t border-gray-800 pt-6">
+        <p class="text-gray-400 text-sm mb-2">Tempo estimado para conclusão:</p>
+        <p class="text-white font-semibold text-lg">2-4 horas</p>
+      </div>
+    </div>
+
+    <!-- Informações de Contato -->
+    <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 mb-8 shadow-2xl">
+      <h3 class="text-white font-semibold mb-4">Precisa de ajuda urgente?</h3>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="mailto:suporte@exemplo.com" class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition-all duration-200 border border-gray-700 hover:border-gray-600">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+          suporte@exemplo.com
+        </a>
+        <a href="tel:+5511999999999" class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition-all duration-200 border border-gray-700 hover:border-gray-600">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+          </svg>
+          (11) 99999-9999
+        </a>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="text-center">
+      <p class="text-gray-500 text-sm">
+        Agradecemos sua paciência e compreensão.
+      </p>
+      <p class="text-gray-600 text-xs mt-2">
+        © <%= new Date().getFullYear() %> <%= store.settings.title %>. Todos os direitos reservados.
+      </p>
+    </div>
+
+    <!-- Indicador de Loading -->
+    <div class="mt-8 flex justify-center">
+      <div class="flex space-x-2">
+        <div class="w-2 h-2 bg-gray-600 rounded-full animate-bounce"></div>
+        <div class="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+        <div class="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partículas de fundo (opcional) -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-gray-800 rounded-full animate-pulse"></div>
+    <div class="absolute top-3/4 right-1/4 w-1 h-1 bg-gray-800 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-3/4 w-1 h-1 bg-gray-800 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+  </div>
+</body>
+
+</html>

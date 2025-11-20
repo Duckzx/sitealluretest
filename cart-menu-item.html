@@ -1,0 +1,23 @@
+<div class="flex items-center justify-between space-x-3 p-3 rounded-md bg-secondary" id="cart-menu-item" data-product-id="${product.id}" data-variant-id="${product.variantId ?? 'null'}">
+  <div class="flex items-center gap-3">
+    <div>
+      <img src="${product.info.mainImage}" class="w-14 h-14 rounded-sm object-cover border" alt="${product.info.title}">
+    </div>
+    <div class="flex flex-col space-y-1 flex-1">
+      <h5 class="text-[0.9rem] break-all line-clamp-2">${product.info.title}${product.variant ? ` > ${product.variant.title}` : ""}</h5>
+      <div>
+        <div class="flex items-center space-x-2"><span class="text-sm text-muted-foreground">${formatPrice(product.type === "DEFAULT" ? product.pricing.price : product.variant.price)}</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flex space-x-3">
+    <div class="flex items-center space-x-3">
+      <button data-action="remove-quantity" class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-secondary hover:text-secondary-foreground h-10 w-10" type="button">-</button>
+      <input data-action="change-quantity" class="bg-transparent text-center outline-none w-12 font-medium" value="${product.quantity}">
+      <button data-action="add-quantity" class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-secondary hover:text-secondary-foreground h-10 w-10" type="button">+</button>
+    </div>
+    <button data-action="remove-item" class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-red-500 text-white shadow-sm hover:bg-destructive/90 h-10 w-10" type="button">
+      <i data-lucide="trash" class="w-5 h-5"></i>
+    </button>
+  </div>
+</div>
